@@ -32,7 +32,6 @@ class RpcClient():
     def call(self, key, msg=''):
         self.response = None
         self.corr_id = str(uuid.uuid4())
-
         self.channel.basic_publish(
             exchange='X:routing.topic',
             routing_key=key,
@@ -43,7 +42,6 @@ class RpcClient():
         )
         while self.response is None:
             self.connection.process_data_events()
-        # return json.loads(self.response)
 
     def room_register(self, room):
         request = json.dumps({'roomId': room})

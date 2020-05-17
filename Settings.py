@@ -1,5 +1,7 @@
 import pygame
+
 #База-----------------------------------------------------------------------
+
 pygame.init()
 pygame.mixer.init()
 clock = pygame.time.Clock()
@@ -15,7 +17,9 @@ bg = pygame.image.load('TanksRss/B1.png')
 poster = pygame.image.load('TanksRss/PosterByDJHaski.png')
 tank1 = pygame.image.load('TanksRss/Tank1.png')#ЦВЕТ ТАНКА (62, 132, 45)
 tank2 = pygame.image.load('TanksRss/Tank1.png') # перересовть танк 1 под анимацию и сделать квадратным.
+
 #-------------------------------------------------
+
 tankAnim = (tank1, tank2)
 # для анимации
 wall1 = pygame.image.load('TanksRss/Wall2.png')

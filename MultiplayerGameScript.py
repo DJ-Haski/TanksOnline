@@ -3,7 +3,9 @@ from Settings import screen, clock, FPS, l_font, m_font, s_font, shoot_sound, ex
 from TankRpcClient import RpcClient
 from Events import RoomEvents
 from TankDrawScript import draw_tank, draw_bullet, drawScoreboard
+
 #ОНЛАЙН--------------------------------------------------------
+
 def online():
     global clock, screen
     screen = pygame.display.set_mode((1200, 640))
@@ -16,14 +18,18 @@ def online():
     room, name = rpc_response['roomId'], rpc_response['tankId']
     room_state = RoomEvents(room)
     room_state.start()
+
 #КНОПОЧКИ------------------------------------
+
     KEYS = {
         pygame.K_w: 'UP',
         pygame.K_a: 'LEFT',
         pygame.K_d: 'RIGHT',
         pygame.K_s: 'DOWN'
     }
+
 #СТРЕЛЬБА.
+
     FIRE_KEY = pygame.K_SPACE
 
     counter = 0
@@ -48,7 +54,9 @@ def online():
                 if event.key in KEYS:
                     direction = KEYS[event.key]
                     rpc_response = rpc.turn_tank(direction)
+
 #ЗАГРУЗКА
+
         if not room_state.ready:
             wait_text = 'Hold on.Game is Loading...'
             wait_text = l_font.render(wait_text, True, (250, 250, 250))
@@ -71,30 +79,42 @@ def online():
 
             text_rect = text.get_rect(center=(600, 75))
             screen.blit(text, text_rect)
+
 #ТАБЛИЦА СЧЕТА, НЕ ТРОГАТЬ, МОГУТ БЫТЬ ОШИБКИ
+
             drawScoreboard(name, tanks, room)
             for tank in tanks:
                 draw_tank(seconds, name, **tank)
+
 #СТРЕЛЬБА
+
             for bullet in bullets:
                 draw_bullet(name, **bullet)
             if len(bullets) > counter: shoot_sound.play(maxtime=1600)
             counter = len(bullets)
+
 #ЗВУК ПОПАДАНИЯ
+
             if room_state.new and cur_state['hits']:
                 room_state.new = False
                 explosion_sound.play()
+
 #ПРОИГРАВШИЕ
+
             if next((x for x in cur_state['losers'] if x['tankId'] == name), None):
                 lost = True
                 mainloop = False
                 game_over = True
+
 #КИКНУТЫЕ
+
             elif next((x for x in cur_state['kicked'] if x['tankId'] == name), None):
                 kicked = True
                 mainloop = False
                 game_over = True
+
 #ПОБЕДИТЕЛИ
+
             elif cur_state['winners']:
                 mainloop = False
                 game_over = True
@@ -109,6 +129,7 @@ def online():
         pygame.display.flip()
 
 #ВОЗВРАТ В МЕНЮ ПОСЛЕ ИГРЫ
+
     room_state.kill = True
     room_state.join()
     screen = pygame.display.set_mode((1200, 640))

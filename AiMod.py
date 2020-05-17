@@ -4,7 +4,9 @@ from TankRpcClient import RpcClient
 from Events import RoomEvents
 from TankDrawScript import draw_tank, draw_bullet, drawScoreboard
 Checker = 300
+
 #Направление
+
 def opposite_direction(direction):
     if direction == 'LEFT':
         return 'RIGHT'
@@ -14,6 +16,7 @@ def opposite_direction(direction):
         return 'DOWN'
     if direction == 'DOWN':
         return 'UP'
+
 
 def create_rect(speed, x, y, width, height, direction, **kwargs):
     rects = []
@@ -136,7 +139,9 @@ class AI:
                     warning.append({'distance': -dist_x - tank['width'], 'turn': direction})
                     self.fire = True
                     self.turn_direction = direction
+
 # Часть из ОНЛАЙНА
+
 def aiM():
     global clock, screen
     screen = pygame.display.set_mode((1200, 640))

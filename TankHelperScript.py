@@ -10,6 +10,7 @@ class Direction(Enum):
     RIGHT = 'RIGHT'
 
 # Заряд -----------------------------------------
+
 class Bullet:
     def __init__(self, tank):
         shoot_sound.play(maxtime=1600)
@@ -41,7 +42,9 @@ class Bullet:
             self.y = tank.y + 3*tank.width//2
 
         self.size = [self.width, self.height]
+
 # отрисовка выстрела----------------------------------------------------------------
+
     def draw(self):
         pygame.draw.ellipse(screen, self.color, (self.x, self.y, self.width, self.height))
 
@@ -60,9 +63,10 @@ class Bullet:
         if self.direction == Direction.DOWN:
             self.y += int(self.speed * sec)
         self.draw()
-#Танки и стрельба-----------------------------------------------------------
-_max_lifes = 10
 
+#Танки и стрельба-----------------------------------------------------------
+
+_max_lifes = 10
 
 class Tank:
 
@@ -87,6 +91,7 @@ class Tank:
         self.KEY = {d_right: Direction.RIGHT, d_left: Direction.LEFT,
                     d_up: Direction.UP, d_down: Direction.DOWN}
 
+
     def draw(self):
         self.cur_image = (self.cur_image + 1) % len(self.images)
         body = pygame.Surface((self.width, self.width))
@@ -108,8 +113,10 @@ class Tank:
 
         screen.blit(body, (self.x, self.y))
 
+
     def changeDirection(self, direction):
         self.direction = direction
+
 
     def move(self, sec, box, tanks):
         if self.countdown > 0:
@@ -148,7 +155,7 @@ class Tank:
         self.draw()
 
 
-##########################################    Walls    ##########################################
+#Стены----------------------------------------------------------------------
 
 
 class Wall:
@@ -162,7 +169,7 @@ class Wall:
         screen.blit(self.image, self.coord)
 
 
-##########################################    Buttons    ##########################################
+#Кнопк---------------------------------------------------------------------
 
 
 class Button:
@@ -186,6 +193,7 @@ class Button:
         self.button_h = size[1] if size != 'auto' else h + 8
         self.txt_x = button_x + self.button_w // 2 - w // 2
         self.txt_y = button_y + self.button_h // 2 - h // 2
+
 
     def draw(self):
         # self.txt = self.font.render(str(self.text), True, self.txt_col)

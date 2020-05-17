@@ -2,11 +2,14 @@ import pygame
 from Settings import screen, clock, FPS, s_font, poster, explosion_sound, button_sound, shoot_sound,bg
 from TankHelperScript import Tank, Bullet, Wall, Direction, Button
 from MapGenerator import map
+
 # столкновения
+
 def checkCollisions(obj1, obj2, is_list1, is_list2):
     return pygame.Rect(obj1.coord if is_list1 else (obj1.x, obj1.y), obj1.size).colliderect(pygame.Rect(obj2.coord if is_list2 else (obj2.x, obj2.y), obj2.size))
 
 #Сингл
+
 def solo():
     global clock, screen
     bullets, tanks, walls = [], [], []

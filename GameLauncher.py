@@ -9,6 +9,8 @@ from AiMod import aiM
 from MapGenerator import map
 repeat = True
 Gmode = ''
+
+
 def start(txt):
     button_sound.play()
     if txt == 'Solo Game':
@@ -17,10 +19,13 @@ def start(txt):
     if txt == 'Online       ': return 'online'#НИ В КОЕМ СЛУЧАЕ НЕ ТРОГАТЬ ПРОБЕЛЫ В ТЕКСТЕ, ВСЕ СЛОМАЕТСЯ
     if txt == 'AI mod      ': return 'aiM'#НИ В КОЕМ СЛУЧАЕ НЕ ТРОГАТЬ ПРОБЕЛЫ В ТЕКСТЕ, ВСЕ СЛОМАЕТСЯ
     if txt == 'Quit          ': pygame.quit()
+
 """
 НИ В КОЕМ СЛУЧАЕ НЕ ТРОГАТЬ ПРОБЕЛЫ В ТЕКСТЕ, ВСЕ СЛОМАЕТСЯ
 """
 #Главное меню --------------------------------------------------------------------
+
+
 def menu():
     global screen, clock, Gmode
     buttons = []
@@ -55,6 +60,7 @@ def menu():
             button.draw()
 
         pygame.display.flip()
+
 
 def again(winner, lost, kicked):
     global repeat
