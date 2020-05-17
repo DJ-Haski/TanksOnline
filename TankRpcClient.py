@@ -1,18 +1,14 @@
 import pika
 import uuid
 import json
-IP = '34.254.177.17'
-PORT = 5672
-VIRTUAL_HOST = 'dar-tanks'
-USERNAME = 'dar-tanks'
-PASSWORD = '5orPLExUYnyVYZg48caMpX'
-
+#То, что писали на офис часах
 class RpcClient():
 
     def __init__(self):
-        self.credentials = pika.PlainCredentials(USERNAME, password=PASSWORD)
-        self.parameters = pika.ConnectionParameters(IP, PORT, VIRTUAL_HOST, self.credentials)
+        self.credentials = pika.PlainCredentials('dar-tanks', password='5orPLExUYnyVYZg48caMpX')
+        self.parameters = pika.ConnectionParameters('34.254.177.17', 5672, 'dar-tanks', self.credentials)
         self.connection = pika.BlockingConnection(self.parameters)
+
         self.channel = self.connection.channel()
 
         result = self.channel.queue_declare(queue='', exclusive=True, auto_delete=True)
@@ -24,12 +20,15 @@ class RpcClient():
             queue=self.callback_queue,
             on_message_callback=self.on_response,
             auto_ack=True)
+
         self.token = None
         self.response = None
         self.corr_id = None
+
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
             self.response = json.loads(body)
+
     def call(self, key, msg=''):
         self.response = None
         self.corr_id = str(uuid.uuid4())
@@ -44,6 +43,8 @@ class RpcClient():
         )
         while self.response is None:
             self.connection.process_data_events()
+        # return json.loads(self.response)
+
     def room_register(self, room):
         request = json.dumps({'roomId': room})
         self.call('tank.request.register', request)
@@ -52,10 +53,12 @@ class RpcClient():
         except:
             pass
         return self.response
+
     def turn_tank(self, direction):
         request = json.dumps({'token': self.token, 'direction': direction})
         self.call('tank.request.turn', request)
         return self.response
+
     def fire(self):
         request = json.dumps({'token': self.token})
         self.call('tank.request.fire', request)
